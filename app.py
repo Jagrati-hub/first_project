@@ -198,7 +198,7 @@ def on_rating_input_change() -> None:
     """Rating number input changed → clamp and push to slider."""
     # pylint: disable=too-many-function-args
     val = float(st.session_state["rating_input"])
-    val = round(val, 1)  # Fix: clear float conversion
+    val = float(round(val, 1))
     val = max(0.0, min(5.0, val))
     st.session_state["rating_input"]  = val
     st.session_state["rating_slider"] = val
@@ -359,7 +359,7 @@ with col_results:
             if total_filtered > 0:
                 # Metrics Summary Row
                 avg_price = int(df_filtered["cost_for_two"].mean())
-                avg_rating = round(float(df_filtered["rating"].mean()), 2)
+                avg_rating = float(round(float(df_filtered["rating"].mean()), 2))
                 
                 metrics_html = (
                     f'<div class="metric-hub">'

@@ -18,7 +18,8 @@ def load_zomato_data() -> pd.DataFrame:
         return _preprocess(raw_df)
     except Exception as e:
         # Restore warning so we can debug if it fails
-        st.error(f"⚠️ Live Data Load Failed: {str(e)[:100]}... Using offline sample.")
+        error_msg = str(e)
+        st.error(f"⚠️ Live Data Load Failed: {error_msg[:100]}... Using offline sample.")
         return _load_fallback()
 
 def get_localities(df: pd.DataFrame) -> list[str]:
