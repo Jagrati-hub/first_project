@@ -313,14 +313,15 @@ with col_filters:
     # Toggles
     st.checkbox("🟢 Show Open Now Only", key="open_only", on_change=on_filter_change)
 
-    if st.button("Get Recommendations ✨", use_container_width=True, type="primary"):
-        st.session_state["search_clicked"] = True
-        st.session_state["show_celebration"] = True
-
-    # Added Reset Button here after removing sidebar
-    if st.button("Reset All Filters ↺", use_container_width=True):
-        st.session_state["_do_reset"] = True
-        st.rerun()
+    btn_col1, btn_col2 = st.columns(2)
+    with btn_col1:
+        if st.button("Search ✨", use_container_width=True, type="primary"):
+            st.session_state["search_clicked"] = True
+            st.session_state["show_celebration"] = True
+    with btn_col2:
+        if st.button("Reset ↺", use_container_width=True):
+            st.session_state["_do_reset"] = True
+            st.rerun()
 
 with col_results:
     # ── RESULTS RENDERING ────────────────────────────────────────────────────────
