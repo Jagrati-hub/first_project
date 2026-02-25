@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+ENV/
+
+# Streamlit
+.streamlit/config.toml
+!.streamlit/secrets.toml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data
+*.csv
+*.json
+!metadata.json
+
+# IDE
+.vscode/
+.idea/
+.cursor/

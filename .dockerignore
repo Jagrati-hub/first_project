@@ -1,0 +1,39 @@
+# Python artefacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# IDE & OS
+.git/
+.gitignore
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local secrets & config overrides
+.env
+.env.*
+secrets/
+
+# Test & docs
+tests/
+*.md
+*.txt
+!requirements.txt
+
+# Node (if any)
+node_modules/
