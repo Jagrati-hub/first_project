@@ -71,7 +71,7 @@ st.set_page_config(
     page_title="Zomato – AI Restaurant Recommendation Service",
     page_icon="🍽️",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 
 st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
@@ -248,20 +248,7 @@ def sort_results(df: pd.DataFrame, sort_by: str) -> pd.DataFrame:
     return df.sort_values(col, ascending=asc).reset_index(drop=True)
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# ④ Sidebar
-# ─────────────────────────────────────────────────────────────────────────────
-
-with st.sidebar:
-    st.markdown(sidebar_logo(), unsafe_allow_html=True)
-    st.markdown(section_divider(), unsafe_allow_html=True)
-    
-    if st.button("Reset All Filters ↺", use_container_width=True):
-        st.session_state["_do_reset"] = True
-        st.rerun()
-
-    st.markdown(section_divider(), unsafe_allow_html=True)
-    st.info("✦ Adjust your preferences in the dashboard on the right.")
+# Sidebar removed as requested
 
 # ─────────────────────────────────────────────────────────────────────────────
 # ⑤ Micro-interactions (toast + balloons) — after sidebar, before main area
@@ -329,6 +316,11 @@ with col_filters:
     if st.button("Get Recommendations ✨", use_container_width=True, type="primary"):
         st.session_state["search_clicked"] = True
         st.session_state["show_celebration"] = True
+
+    # Added Reset Button here after removing sidebar
+    if st.button("Reset All Filters ↺", use_container_width=True):
+        st.session_state["_do_reset"] = True
+        st.rerun()
 
 with col_results:
     # ── RESULTS RENDERING ────────────────────────────────────────────────────────
