@@ -13,11 +13,12 @@ DATA_URL = "https://raw.githubusercontent.com/anishmahapatra/Zomato-Data-Visuali
 def load_zomato_data() -> pd.DataFrame:
     """Loads and preprocesses the Zomato Bangalore dataset."""
     try:
-        # Attempt to load from public URL
-        raw_df = pd.read_csv(DATA_URL)
+        # Attempt to load from public URL with latin-1 encoding (common for this dataset)
+        raw_df = pd.read_csv(DATA_URL, encoding='latin-1')
         return _preprocess(raw_df)
     except Exception as e:
-        # Graceful fallback to local sample if internet or URL fails
+        # Restore warning so we can debug if it fails
+        st.error(f"⚠️ Live Data Load Failed: {str(e)[:100]}... Using offline sample.")
         return _load_fallback()
 
 def get_localities(df: pd.DataFrame) -> list[str]:
