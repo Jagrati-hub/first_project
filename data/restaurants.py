@@ -6,19 +6,18 @@ from typing import Any
 import pandas as pd
 import streamlit as st
 
-# Use raw dataset from HuggingFace (Zomato Bangalore Restaurants)
-# This link is a direct parquet/csv link or we use fallback if it fails.
-DATA_URL = "https://huggingface.co/datasets/mrmaheshrajput/Zomato-dataset/resolve/main/zomato.csv"
+# Use a reliable public raw GitHub URL for the Zomato Bangalore dataset
+DATA_URL = "https://raw.githubusercontent.com/anishmahapatra/Zomato-Data-Visualization/main/data/zomato.csv"
 
+@st.cache_data(ttl=86400) # Cache for 24 hours
 def load_zomato_data() -> pd.DataFrame:
     """Loads and preprocesses the Zomato Bangalore dataset."""
     try:
-        # Note: In a real agent environment, we might use cached files.
-        # For this demo, we use a robust fallback if the URL is slow.
+        # Attempt to load from public URL
         raw_df = pd.read_csv(DATA_URL)
         return _preprocess(raw_df)
     except Exception as e:
-        st.warning(f"Could not load live Zomato data ({e}). Using pre-cached sample.")
+        # Graceful fallback to local sample if internet or URL fails
         return _load_fallback()
 
 def get_localities(df: pd.DataFrame) -> list[str]:
