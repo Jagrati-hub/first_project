@@ -183,10 +183,10 @@ def open_status(is_open: bool) -> str:
 
 # ── Restaurant Card ───────────────────────────────────────────────────────────
 
-def global_insight(locality: str, name: str, cuisine: list[str], rating: float, insight_text: str = None) -> str:
+def global_insight(locality: str, name: str, cuisine: list[str], rating: float, insight_text: str | None = None) -> str:
     """Build the global summary box shown at the top of results."""
     # Ensure cuisine is a list before slicing
-    c_list = cuisine if isinstance(cuisine, list) else []
+    c_list: list[str] = cuisine if isinstance(cuisine, list) else []
     cuisine_str = ", ".join(c_list[:2])
     
     # Use provided AI insight or fallback to template
@@ -200,16 +200,17 @@ def global_insight(locality: str, name: str, cuisine: list[str], rating: float, 
 </div>"""
 
 
-def restaurant_card(row: pd.Series, insight_text: str = None) -> str:
+def restaurant_card(row: pd.Series, insight_text: str | None = None) -> str:
     """Build the full HTML for a single restaurant card."""
-    name      = row.get("name", "Unknown Restaurant")
-    locality  = row.get("locality", "Unknown Locality")
-    cuisines  = row.get("cuisines", [])
-    cost      = row.get("cost_for_two", 0)
-    rating    = row.get("rating", 0.0)
-    address   = row.get("address", row.get("locality", "No Address Provided"))
-    sig_dish  = row.get("signature_dish", "Chef's Special")
-    emoji     = row.get("image_emoji", "🍽️")
+    name      = str(row.get("name", "Unknown Restaurant") or "Unknown Restaurant")
+    locality  = str(row.get("locality", "Unknown Locality") or "Unknown Locality")
+    _cuisines = row.get("cuisines", [])
+    cuisines: list[str] = [str(c) for c in _cuisines] if isinstance(_cuisines, list) else []
+    cost      = int(row.get("cost_for_two", 0) or 0)
+    rating    = float(row.get("rating", 0.0) or 0.0)
+    address   = str(row.get("address", row.get("locality", "No Address Provided")) or "No Address Provided")
+    sig_dish  = str(row.get("signature_dish", "Chef's Special") or "Chef's Special")
+    emoji     = str(row.get("image_emoji", "🍽️") or "🍽️")
 
     utensils_icon = icon_utensils(14)
     dollar_icon = icon_dollar(14)

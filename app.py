@@ -33,8 +33,6 @@ from __future__ import annotations
 
 import sys
 import os
-import time
-
 import streamlit as st
 import pandas as pd
 
@@ -47,18 +45,10 @@ from data.restaurants import load_zomato_data, get_localities, get_all_cuisines
 from data.groq_client import generate_ai_insight
 from styles.styles import GLOBAL_CSS
 from components.components import (
-    filter_label,
     hero_banner,
-    section_divider,
-    sidebar_logo,
     restaurant_card,
     global_insight,
-    results_count_badge,
     no_results_html,
-    icon_map_pin,
-    icon_utensils,
-    icon_dollar,
-    icon_star,
     metric_card,
     zomato_celebration_html
 )
@@ -234,13 +224,13 @@ def apply_filters(df: pd.DataFrame) -> pd.DataFrame:
     result = df[mask].copy()
 
     if selected_cuisines:
-        result = result[
-            result["cuisines"].apply(
-                lambda lst: any(c in lst for c in selected_cuisines)
-            )
-        ]
+        def match_cuisine(lst):
+            if not isinstance(lst, list): return False
+            return any(c in lst for c in selected_cuisines)
+        mask_cuisines = result["cuisines"].apply(match_cuisine) # type: ignore
+        result = result[mask_cuisines] # type: ignore
 
-    return result
+    return result # type: ignore
 
 
 def sort_results(df: pd.DataFrame, sort_by: str) -> pd.DataFrame:

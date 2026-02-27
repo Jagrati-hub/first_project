@@ -6,8 +6,8 @@ from typing import Any
 import pandas as pd
 import streamlit as st
 
-# Use a reliable public raw GitHub URL for the Zomato Bangalore dataset
-DATA_URL = "https://raw.githubusercontent.com/anishmahapatra/Zomato-Data-Visualization/main/data/zomato.csv"
+# Use Hugging Face dataset URL
+DATA_URL = "hf://datasets/ManikaSaini/zomato-restaurant-recommendation/zomato.csv"
 
 @st.cache_data(ttl=86400) # Cache for 24 hours
 def load_zomato_data() -> pd.DataFrame:
@@ -19,7 +19,8 @@ def load_zomato_data() -> pd.DataFrame:
     except Exception as e:
         # Restore warning so we can debug if it fails
         error_msg = str(e)
-        st.error(f"⚠️ Live Data Load Failed: {error_msg[:100]}... Using offline sample.")
+        short_msg = error_msg[0:100] if len(error_msg) > 100 else error_msg
+        st.error(f"⚠️ Live Data Load Failed: {short_msg}... Using offline sample.")
         return _load_fallback()
 
 def get_localities(df: pd.DataFrame) -> list[str]:
@@ -123,7 +124,7 @@ def _preprocess(raw_df: pd.DataFrame) -> pd.DataFrame:
 
     df = pd.DataFrame(records)
     df = df[df["name"].str.len() > 1].copy()
-    df = df.drop_duplicates(subset=["name", "locality"]).reset_index(drop=True)
+    df = df.drop_duplicates(subset=["name", "locality"]).reset_index(drop=True) # type: ignore
     return df
 
 def _emoji_for(cuisines: list[str]) -> str:

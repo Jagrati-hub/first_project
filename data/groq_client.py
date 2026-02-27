@@ -30,7 +30,10 @@ def generate_ai_insight(prompt: str) -> str:
             temperature=0.7,
             max_tokens=50
         )
-        return completion.choices[0].message.content.strip().strip('"')
+        content = completion.choices[0].message.content
+        if content:
+            return content.strip().strip('"')
+        return "A local favorite known for its consistent quality and great atmosphere."
     except Exception as e:
         # Fallback to a generic insight if API fails
         return "A local favorite known for its consistent quality and great atmosphere."
