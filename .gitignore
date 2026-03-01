@@ -8,8 +8,8 @@ venv/
 ENV/
 
 # Streamlit
-.streamlit/config.toml
-!.streamlit/secrets.toml
+.streamlit/secrets.toml
+!.streamlit/config.toml
 
 # OS
 .DS_Store

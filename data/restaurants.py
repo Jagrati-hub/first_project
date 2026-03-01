@@ -6,8 +6,8 @@ from typing import Any
 import pandas as pd
 import streamlit as st
 
-# Use Hugging Face dataset URL
-DATA_URL = "hf://datasets/ManikaSaini/zomato-restaurant-recommendation/zomato.csv"
+# Use Hugging Face dataset URL (Direct download link for better compatibility)
+DATA_URL = "https://huggingface.co/datasets/ManikaSaini/zomato-restaurant-recommendation/resolve/main/zomato.csv"
 
 @st.cache_data(ttl=86400) # Cache for 24 hours
 def load_zomato_data() -> pd.DataFrame:
